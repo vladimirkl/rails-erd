@@ -3,9 +3,16 @@ require "bundler/setup"
 
 require "active_record"
 require "test/unit"
+require "active_support/test_case"
 require "rails_erd/domain"
 
 ActiveRecord::Base.establish_connection :adapter => "sqlite3", :database => ":memory:"
+
+class ActiveRecord::Base
+  def self.clear_cache! # :nodoc:
+    #connection_pool.clear_reloadable_connections!
+  end
+end
 
 class ActiveSupport::TestCase
   include RailsERD
@@ -15,11 +22,9 @@ class ActiveSupport::TestCase
   def create_table(table, columns = {}, pk = nil)
     opts = if pk then { :primary_key => pk } else { :id => false } end
     ActiveRecord::Schema.instance_eval do
-      suppress_messages do
-        create_table table, opts do |t|
-          columns.each do |column, type|
-            t.send type, column
-          end
+      create_table table, opts do |t|
+        columns.each do |column, type|
+          t.send type, column
         end
       end
     end
@@ -120,15 +125,15 @@ class ActiveSupport::TestCase
 
   def reset_domain
     if defined? ActiveRecord
-      ActiveRecord::Base.descendants.each do |model|
+      Class.subclasses_of(ActiveRecord::Base).each do |model|
         model.reset_column_information
         Object.send :remove_const, model.name.to_sym
       end
       ActiveRecord::Base.connection.tables.each do |table|
         ActiveRecord::Base.connection.drop_table table
       end
-      ActiveRecord::Base.direct_descendants.clear
-      ActiveSupport::Dependencies::Reference.clear!
+      #ActiveRecord::Base.direct_descendants.clear
+      ActiveSupport::Dependencies::clear
       ActiveRecord::Base.clear_cache!
     end
   end

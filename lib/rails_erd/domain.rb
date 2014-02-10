@@ -24,7 +24,7 @@ module RailsERD
       # The +options+ hash allows you to override the default options. For a
       # list of available options, see RailsERD.
       def generate(options = {})
-        new ActiveRecord::Base.descendants, options
+        new Class.subclasses_of(ActiveRecord::Base), options
       end
 
       # Returns the method name to retrieve the foreign key from an
