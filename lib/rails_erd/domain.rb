@@ -43,7 +43,8 @@ module RailsERD
     # Create a new domain model object based on the given array of models.
     # The given models are assumed to be subclasses of <tt>ActiveRecord::Base</tt>.
     def initialize(models = [], options = {})
-      @source_models, @options = models, RailsERD.options.merge(options)
+      @source_models, @options = models.sort {|a,b| a.name <=> b.name }, RailsERD.options.merge(options)
+      puts @source_models
     end
 
     # Returns the domain model name, which is the name of your Rails

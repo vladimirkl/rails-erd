@@ -67,7 +67,7 @@ class AttributeTest < ActiveSupport::TestCase
 
   test "mandatory should return true if attribute has a presence validator" do
     create_model "Foo", :column => :string do
-      validates :column, :presence => true
+      validates_presence_of :column
     end
     assert_equal true, create_attribute(Foo, "column").mandatory?
   end

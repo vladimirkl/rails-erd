@@ -1,4 +1,5 @@
 # encoding: utf-8
+require 'validation_reflection'
 
 #--
 module RailsERD
@@ -44,7 +45,7 @@ module RailsERD
       # either have a presence validation (+validates_presence_of+), or have a
       # <tt>NOT NULL</tt> database constraint.
       def mandatory?
-        !column.null or @model.validators_on(name).map(&:kind).include?(:presence)
+        !column.null or @model.reflect_on_validations_for(name).map(&:macro).include?(:validates_presence_of)
       end
 
       # Returns +true+ if this attribute is the primary key of the entity.

@@ -169,20 +169,21 @@ module RailsERD
       end
 
       def association_minimum(association)
-        minimum = association_validators(:presence, association).any? ||
+        minimum = association_validators(:validates_presence_of, association).any? ||
           foreign_key_required?(association) ? 1 : 0
-        length_validators = association_validators(:length, association)
-        length_validators.map { |v| v.options[:minimum] }.compact.max or minimum
+        length_validators = association_validators(:validates_length_of, association)
+        length_validators.map { |v| v.options[:minimum] || v.options[:in].try(:begin) }.compact.max or minimum
       end
 
       def association_maximum(association)
         maximum = association.collection? ? N : 1
-        length_validators = association_validators(:length, association)
-        length_validators.map { |v| v.options[:maximum] }.compact.min or maximum
+        length_validators = association_validators(:validates_length_of, association)
+        length_validators.map { |v| v.options[:maximum] || v.options[:in].try(:end) }.compact.min or maximum
       end
 
       def association_validators(kind, association)
-        association.active_record.validators_on(association.name).select { |v| v.kind == kind }
+        validations = association.active_record.reflect_on_validations_for(association.name)
+        validations.select { |v| v.macro == kind }
       end
 
       def any_habtm?(associations)

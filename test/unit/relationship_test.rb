@@ -230,7 +230,7 @@ class RelationshipTest < ActiveSupport::TestCase
   test "cardinality should be zero-one to n-m for limited one to many associations with single validation" do
     create_one_to_many_assoc_domain
     One.class_eval do
-      validates_length_of :many, :minimum => 5, :maximum => 17
+      validates_length_of :many, :in => 5..17
     end
     assert_equal [Domain::Relationship::Cardinality.new(0..1, 5..17)], domain_cardinalities
   end
@@ -241,7 +241,7 @@ class RelationshipTest < ActiveSupport::TestCase
       validates_presence_of :many
       validates_length_of :many, :maximum => 17
       validates_length_of :many, :minimum => 5
-      validates_length_of :many, :minimum => 2, :maximum => 28
+      validates_length_of :many, :in => 2..28
     end
     assert_equal [Domain::Relationship::Cardinality.new(0..1, 5..17)], domain_cardinalities
   end
@@ -265,10 +265,10 @@ class RelationshipTest < ActiveSupport::TestCase
   test "cardinality should be n-m to n-m for limited many to many associations with single validations" do
     create_many_to_many_assoc_domain
     Many.class_eval do
-      validates_length_of :more, :minimum => 3, :maximum => 18
+      validates_length_of :more, :in => 3..18
     end
     More.class_eval do
-      validates_length_of :many, :maximum => 29, :minimum => 7
+      validates_length_of :many, :in => 7..29
     end
     assert_equal [Domain::Relationship::Cardinality.new(7..29, 3..18)], domain_cardinalities
   end

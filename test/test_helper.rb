@@ -22,9 +22,11 @@ class ActiveSupport::TestCase
   def create_table(table, columns = {}, pk = nil)
     opts = if pk then { :primary_key => pk } else { :id => false } end
     ActiveRecord::Schema.instance_eval do
-      create_table table, opts do |t|
-        columns.each do |column, type|
-          t.send type, column
+      suppress_messages do
+        create_table table, opts do |t|
+          columns.each do |column, type|
+            t.send type, column
+          end
         end
       end
     end

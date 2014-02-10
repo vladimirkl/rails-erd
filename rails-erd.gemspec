@@ -16,6 +16,7 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency "activerecord", ["~> 2.3"]
   s.add_runtime_dependency "activesupport", ["~> 2.3"]
+  s.add_runtime_dependency "validation_reflection", ["~> 0.3.8"]
   s.add_runtime_dependency "ruby-graphviz", ["~> 1.0.4"]
   s.add_runtime_dependency "choice", ["~> 0.1.6"]
 
