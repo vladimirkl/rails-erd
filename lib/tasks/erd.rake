@@ -15,10 +15,7 @@ namespace :erd do
     @options = RailsERD.options
   end
 
-  task :load_models do
-    say "Loading application environment..."
-    Rake::Task[:environment].invoke
-
+  task :load_models => [:environment] do
     say "Loading code in search of Active Record models..."
     Dir[Pathname(RAILS_ROOT) + 'app/models/**/*.rb'].each {|f| require f  rescue nil }
 
