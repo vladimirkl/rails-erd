@@ -215,10 +215,6 @@ class DiagramTest < ActiveSupport::TestCase
   end
 
   test "generate should yield indirect relationships if indirect is true" do
-    create_model "Foo" do
-      has_many :bazs
-      has_many :bars
-    end
     create_model "Bar", :foo => :references do
       belongs_to :foo
       has_many :bazs, :through => :foo
@@ -226,7 +222,11 @@ class DiagramTest < ActiveSupport::TestCase
     create_model "Baz", :foo => :references do
       belongs_to :foo
     end
-    assert_equal [false, true, false], retrieve_relationships(:indirect => true).map(&:indirect?)
+    create_model "Foo" do
+      has_many :bazs
+      has_many :bars
+    end
+    assert_equal([false, false, true], retrieve_relationships(:indirect => true).map(&:indirect?))
   end
 
   test "generate should filter indirect relationships if indirect is false" do

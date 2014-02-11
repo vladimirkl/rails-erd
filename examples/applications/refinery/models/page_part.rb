@@ -1,5 +1,5 @@
 class PagePart < ActiveRecord::Base
   belongs_to :page
 
-  validates :title, :presence => true
+  validates_presence_of :title
 end

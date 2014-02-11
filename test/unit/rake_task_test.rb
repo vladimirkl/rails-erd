@@ -1,7 +1,7 @@
 require File.expand_path("../test_helper", File.dirname(__FILE__))
 
 class RakeTaskTest < ActiveSupport::TestCase
-  #include ActiveSupport::Testing::Isolation
+  include ActiveSupport::Testing::Isolation
 
   def setup
     require "rake"

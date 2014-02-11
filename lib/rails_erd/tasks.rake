@@ -35,7 +35,7 @@ namespace :erd do
   end
 
   task :generate => [:options, :load_models] do
-    say "Generating Entity-Relationship Diagram for #{ActiveRecord::Base.descendants.length} models..."
+    say "Generating Entity-Relationship Diagram for #{Class.subclasses_of(ActiveRecord::Base).length} models..."
 
     require "rails_erd/diagram/graphviz"
     file = RailsERD::Diagram::Graphviz.create

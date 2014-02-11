@@ -20,5 +20,5 @@ class Product < ActiveRecord::Base
     :conditions => ["variants.deleted_at IS NULL"],
     :dependent => :destroy
 
-  validates :name, :price, :permalink, :presence => true
+  validates_presence_of :name, :price, :permalink
 end

@@ -5,6 +5,6 @@ class Shipment < ActiveRecord::Base
   has_many :state_events, :as => :stateful
   has_many :inventory_units
 
-  validates :inventory_units, :presence => true, :if => :require_inventory
+  validates_presence_of :inventory_units, :if => :require_inventory
   validate :shipping_method
 end

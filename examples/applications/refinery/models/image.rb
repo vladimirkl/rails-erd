@@ -1,4 +1,4 @@
 class Image < ActiveRecord::Base
-  validates :image, :presence  => true,
-                    :length    => { :maximum => 20000000 }
+  validates_presence_of :image
+  validates_length_of  :image, :maximum => 20000000
 end

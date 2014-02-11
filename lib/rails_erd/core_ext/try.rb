@@ -42,7 +42,7 @@ class Object
     if a.empty? && block_given?
       yield self
     else
-      public_send(*a, &b) if respond_to?(a.first)
+      send(*a, &b) if respond_to?(a.first)
     end
   end
 
@@ -52,7 +52,7 @@ class Object
     if a.empty? && block_given?
       yield self
     else
-      public_send(*a, &b)
+      send(*a, &b)
     end
   end
 end

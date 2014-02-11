@@ -2,7 +2,7 @@ class ReturnAuthorization < ActiveRecord::Base
   belongs_to :order
   has_many :inventory_units
 
-  validates :order, :presence => true
-  validates :amount, :numericality => true
+  validates_presence_of :order
+  validates_numericality_of :amount
   validate :must_have_shipped_units
 end

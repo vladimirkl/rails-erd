@@ -3,7 +3,7 @@ class LineItem < ActiveRecord::Base
   belongs_to :variant
   has_one :product, :through => :variant
 
-  validates :variant, :presence => true
-  validates :quantity, :numericality => { :only_integer => true, :message => I18n.t("validation.must_be_int") }
-  validates :price, :numericality => true
+  validates_presence_of :variant
+  validates_numericality_of :quantity,  :only_integer => true, :message => I18n.t("validation.must_be_int")
+  validates_numericality_of :price
 end

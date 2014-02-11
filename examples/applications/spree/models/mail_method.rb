@@ -1,3 +1,3 @@
 class MailMethod < ActiveRecord::Base
-  validates :environment, :presence => true
+  validates_presence_of :environment
 end

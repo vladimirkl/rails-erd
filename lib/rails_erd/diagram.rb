@@ -1,5 +1,5 @@
 require File.dirname(__FILE__) + '/core_ext/try'
-require "rails_erd/domain"
+require File.dirname(__FILE__) + '/domain'
 
 module RailsERD
   # This class is an abstract class that will process a domain model and

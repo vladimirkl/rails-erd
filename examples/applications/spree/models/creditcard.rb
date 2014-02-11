@@ -1,7 +1,7 @@
 class Creditcard < ActiveRecord::Base
   has_many :payments, :as => :source
 
-  validates :month, :year, :numericality => { :only_integer => true }
-  validates :number, :presence => true, :unless => :has_payment_profile?, :on => :create
-  validates :verification_value, :presence => true, :unless => :has_payment_profile?, :on => :create
+  validates_numericality_of :month, :year
+  validates_presence_of :number, :unless => :has_payment_profile?, :on => :create
+  validates_presence_of :verification_value, :unless => :has_payment_profile?, :on => :create
 end

@@ -4,6 +4,7 @@ require "bundler/setup"
 require "active_record"
 require "test/unit"
 require "active_support/test_case"
+require File.dirname(__FILE__) + '/isolation'
 require "rails_erd/domain"
 
 ActiveRecord::Base.establish_connection :adapter => "sqlite3", :database => ":memory:"
@@ -134,7 +135,6 @@ class ActiveSupport::TestCase
       ActiveRecord::Base.connection.tables.each do |table|
         ActiveRecord::Base.connection.drop_table table
       end
-      #ActiveRecord::Base.direct_descendants.clear
       ActiveSupport::Dependencies::clear
       ActiveRecord::Base.clear_cache!
     end

@@ -1,5 +1,5 @@
 class Page < ActiveRecord::Base
-  validates :title, :presence => true
+  validates_presence_of :title
   has_friendly_id :title, :use_slug => true,
                   :reserved_words => %w(index new session login logout users refinery admin images wymiframe)
   has_many :parts,

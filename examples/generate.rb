@@ -27,9 +27,9 @@ Dir["#{File.dirname(__FILE__)}/*/*"].each do |path|
     end
 
     # Skip empty domain models.
-    next if ActiveRecord::Base.descendants.empty?
+    next if Class.subclasses_of(ActiveRecord::Base).empty?
 
-    puts "#{ActiveRecord::Base.descendants.length} models"
+    puts "#{Class.subclasses_of(ActiveRecord::Base).length} models"
     domain = RailsERD::Domain.generate
 
     [:simple, :bachman].each do |notation|
@@ -49,12 +49,12 @@ Dir["#{File.dirname(__FILE__)}/*/*"].each do |path|
     end
     puts
   ensure
+
     # Completely remove all loaded Active Record models.
-    ActiveRecord::Base.descendants.each do |model|
+    Class.subclasses_of(ActiveRecord::Base).each do |model|
+      model.reset_column_information
       Object.send :remove_const, model.name.to_sym rescue nil
     end
-    ActiveRecord::Base.direct_descendants.clear
-    Arel::Relation.send :class_variable_set, :@@connection_tables_primary_keys, {}
-    ActiveSupport::Dependencies::Reference.clear!
+    ActiveSupport::Dependencies::clear
   end
 end

@@ -1,8 +1,8 @@
-require "rails_erd"
-require "rails_erd/domain/attribute"
-require "rails_erd/domain/entity"
-require "rails_erd/domain/relationship"
-require "rails_erd/domain/specialization"
+require File.dirname(__FILE__) + '/../rails_erd'
+require File.dirname(__FILE__) + '/domain/attribute'
+require File.dirname(__FILE__) + '/domain/entity'
+require File.dirname(__FILE__) + '/domain/relationship'
+require File.dirname(__FILE__) + '/domain/specialization'
 
 module RailsERD
   # The domain describes your Rails domain model. This class is the starting
@@ -43,8 +43,7 @@ module RailsERD
     # Create a new domain model object based on the given array of models.
     # The given models are assumed to be subclasses of <tt>ActiveRecord::Base</tt>.
     def initialize(models = [], options = {})
-      @source_models, @options = models.sort {|a,b| a.name <=> b.name }, RailsERD.options.merge(options)
-      puts @source_models
+      @source_models, @options = models, RailsERD.options.merge(options)
     end
 
     # Returns the domain model name, which is the name of your Rails
