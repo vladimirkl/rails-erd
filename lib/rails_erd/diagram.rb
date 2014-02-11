@@ -1,4 +1,3 @@
-require File.dirname(__FILE__) + '/core_ext/try'
 require File.dirname(__FILE__) + '/domain'
 
 module RailsERD

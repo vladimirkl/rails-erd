@@ -49,7 +49,7 @@ module RailsERD
     # Returns the domain model name, which is the name of your Rails
     # application or +nil+ outside of Rails.
     def name
-      defined? Rails and Rails.application and Rails.application.class.parent.name
+      #defined? Rails and Rails.application and Rails.application.class.parent.name
     end
 
     # Returns all entities of your domain model.

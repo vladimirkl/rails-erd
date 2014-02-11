@@ -6,7 +6,7 @@ class DomainTest < ActiveSupport::TestCase
     assert_kind_of Domain, Domain.generate
   end
 
-  test "name should return rails application name" do
+  xtest "name should return rails application name" do
     begin
       Object::Quux = Module.new
       Object::Quux::Application = Class.new

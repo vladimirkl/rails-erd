@@ -12,6 +12,7 @@ namespace :erd do
       else ENV[option].to_sym
       end
     end
+    @options = RailsERD.options
   end
 
   task :load_models do
@@ -19,25 +20,15 @@ namespace :erd do
     Rake::Task[:environment].invoke
 
     say "Loading code in search of Active Record models..."
-    begin
-      Rails.application.eager_load!
-    rescue Exception => err
-      if Rake.application.options.trace
-        raise
-      else
-        trace = Rails.backtrace_cleaner.clean(err.backtrace)
-        error = (["Loading models failed!\nError occurred while loading application: #{err} (#{err.class})"] + trace).join("\n    ")
-        raise error
-      end
-    end
+    Dir[Pathname(RAILS_ROOT) + 'app/models/**/*.rb'].each {|f| require f  rescue nil }
 
     raise "Active Record was not loaded." unless defined? ActiveRecord
   end
 
   task :generate => [:options, :load_models] do
     say "Generating Entity-Relationship Diagram for #{Class.subclasses_of(ActiveRecord::Base).length} models..."
-
     require "rails_erd/diagram/graphviz"
+    RailsERD.options = @options
     file = RailsERD::Diagram::Graphviz.create
 
     say "Done! Saved diagram to #{file}."

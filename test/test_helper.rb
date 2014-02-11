@@ -8,6 +8,7 @@ require File.dirname(__FILE__) + '/isolation'
 require "rails_erd/domain"
 
 ActiveRecord::Base.establish_connection :adapter => "sqlite3", :database => ":memory:"
+RAILS_ROOT = '.'
 
 class ActiveRecord::Base
   def self.clear_cache! # :nodoc:
@@ -19,6 +20,10 @@ class ActiveSupport::TestCase
   include RailsERD
 
   teardown :reset_domain
+
+  def self.xtest(name)
+    puts "Skipping test #{name}"
+  end
 
   def create_table(table, columns = {}, pk = nil)
     opts = if pk then { :primary_key => pk } else { :id => false } end

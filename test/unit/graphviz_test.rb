@@ -187,7 +187,7 @@ class GraphvizTest < ActiveSupport::TestCase
     assert_equal '"Domain model\n\n"', diagram.graph.graph[:label].to_s
   end
 
-  test "generate should add title with application name to graph" do
+  xtest "generate should add title with application name to graph" do
     begin
       Object::Quux = Module.new
       Object::Quux::Application = Class.new
