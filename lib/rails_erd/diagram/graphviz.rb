@@ -154,10 +154,10 @@ module RailsERD
             options[:arrowtail] = relationship.many_to? ? "vee" : "none"
 
             ranges = [relationship.cardinality.destination_range, relationship.cardinality.source_range].map do |range|
-              if range.min == range.max
-                "#{range.min}"
+              if range.begin == range.end
+                "#{range.begin}"
               else
-                "#{range.min}..#{range.max == Domain::Relationship::N ? "∗" : range.max}"
+                "#{range.begin}..#{range.end == Domain::Relationship::N ? "∗" : range.end}"
               end
             end
             options[:headlabel], options[:taillabel] = *ranges

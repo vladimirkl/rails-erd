@@ -419,6 +419,49 @@ class GraphvizTest < ActiveSupport::TestCase
     assert_equal [["dotnormal", "dotnormal"]], find_dot_edge_styles(diagram(:notation => :bachman))
   end
 
+  # uml notation style
+  test "generate should use no styles for one to one cardinalities with uml notation" do
+    create_one_to_one_assoc_domain
+    assert_equal [["none", "none"]], find_dot_edge_styles(diagram(:notation => :uml))
+  end
+
+  test "generate should use no  styles for mandatory one to one cardinalities with uml notation" do
+    create_one_to_one_assoc_domain
+    One.class_eval do
+      validates_presence_of :other
+    end
+    assert_equal [["none", "none"]], find_dot_edge_styles(diagram(:notation => :uml))
+  end
+
+  test "generate should use vee arrow for one to many cardinalities with uml notation" do
+    create_one_to_many_assoc_domain
+    assert_equal [["none", "vee"]], find_dot_edge_styles(diagram(:notation => :uml))
+  end
+
+  test "generate should use vee arrow for mandatory one to many cardinalities with uml notation" do
+    create_one_to_many_assoc_domain
+    One.class_eval do
+      validates_presence_of :many
+    end
+    assert_equal [["none", "vee"]], find_dot_edge_styles(diagram(:notation => :uml))
+  end
+
+  test "generate should use vee arrows for many to many cardinalities with uml notation" do
+    create_many_to_many_assoc_domain
+    assert_equal [["vee", "vee"]], find_dot_edge_styles(diagram(:notation => :uml))
+  end
+
+  test "generate should use vee arrows and dot tail and head for mandatory many to many cardinalities with uml notation" do
+    create_many_to_many_assoc_domain
+    Many.class_eval do
+      validates_presence_of :more
+    end
+    More.class_eval do
+      validates_presence_of :many
+    end
+    assert_equal [["vee", "vee"]], find_dot_edge_styles(diagram(:notation => :uml))
+  end
+
   # Crows-foot notation style ================================================
   test "generate should use 0/1 crowsfeet for one to one cardinalities with crowsfoot notation" do
     create_one_to_one_assoc_domain

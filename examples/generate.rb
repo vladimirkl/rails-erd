@@ -32,7 +32,7 @@ Dir["#{File.dirname(__FILE__)}/*/*"].each do |path|
     puts "#{Class.subclasses_of(ActiveRecord::Base).length} models"
     domain = RailsERD::Domain.generate
 
-    [:simple, :bachman].each do |notation|
+    [:simple, :bachman, :uml].each do |notation|
       [:dot, :pdf].each do |filetype|
         filename = File.expand_path("#{output_dir}/#{name}#{notation != :simple ? "-#{notation}" : ""}", File.dirname(__FILE__))
 
